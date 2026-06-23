@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillBridge 2035 — UN Field Operations Playbook</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+:root {
+  --paper:   #F2EDD7;
+  --paper2:  #E8E0C0;
+  --ink:     #1C1A14;
+  --un-blue: #009EDB;
+  --un-dark: #044F85;
+  --signal:  #2ECC71;
+  --warn:    #E67E22;
+  --danger:  #C0392B;
+  --mid:     #6B6045;
+  --rule:    #C8BC96;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: #2A2A2A;
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
+}
+
+.doc-body {
+  background: var(--paper);
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 0 0 60px rgba(0,0,0,0.5);
+}
+
+/* ══ COVER ══ */
+.cover {
+  background: var(--un-dark);
+  color: #fff;
+  padding: 48px 24px 40px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 6px solid var(--un-blue);
+  text-align: center;
+}
+.cover::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.04) 39px, rgba(255,255,255,0.04) 40px);
+  pointer-events: none;
+}
+.stamp {
+  display: inline-block;
+  border: 2px solid var(--un-blue);
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--un-blue);
+  text-transform: uppercase;
+  transform: rotate(2deg);
+  background: rgba(0,158,219,0.06);
+  margin-bottom: 20px;
+}
+/* Cover hero image */
+.cover-hero {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  object-position: center 40%;
+  border-radius: 6px;
+  margin-bottom: 28px;
+  opacity: 0.85;
+  filter: saturate(0.8) brightness(0.9);
+}
+.cover-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--un-blue);
+  margin-bottom: 14px;
+  text-align: center;
+}
+.cover h1 {
+  font-family: 'Special Elite', cursive;
+  font-size: clamp(1.8rem, 6vw, 3.4rem);
+  line-height: 1.15;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.cover h1 span { color: var(--un-blue); }
+.cover-sub {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.65;
+  margin: 0 auto 28px;
+  text-align: center;
+  max-width: 560px;
+}
+.cover-meta {
+  display: flex; gap: 12px 24px; flex-wrap: wrap;
+  justify-content: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.07em;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding-top: 20px;
+}
+.cover-meta span { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.cover-meta strong { color: var(--un-blue); font-size: 0.78rem; }
+
+/* ══ NAV ══ */
+.toc-strip {
+  background: var(--ink);
+  padding: 0 12px;
+  display: flex; gap: 0;
+  overflow-x: auto;
+  position: sticky; top: 0; z-index: 50;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.toc-strip::-webkit-scrollbar { display: none; }
+.toc-item {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  padding: 14px 14px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+  text-decoration: none;
+}
+.toc-item:hover, .toc-item:active { color: var(--un-blue); border-bottom-color: var(--un-blue); }
+
+/* ══ SECTIONS ══ */
+.section {
+  padding: 48px 24px;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.section:nth-child(even) { background: rgba(0,0,0,0.018); }
+
+.sec-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--un-blue);
+  margin-bottom: 10px;
+  text-align: center; display: block;
+}
+.section h2 {
+  font-family: 'Special Elite', cursive;
+  font-size: clamp(1.45rem, 4.5vw, 2.1rem);
+  color: var(--ink);
+  margin-bottom: 18px;
+  line-height: 1.2; text-align: center;
+}
+.section > p {
+  font-size: 0.91rem; line-height: 1.72; color: #3a3420;
+  margin-bottom: 16px;
+  text-align: center;
+  max-width: 640px; margin-left: auto; margin-right: auto;
+}
+.section > p:last-child { margin-bottom: 0; }
+
+/* ══ SECTION PHOTO BANNER ══ */
+.sec-photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 6px;
+  margin-bottom: 28px;
+  filter: saturate(0.75) brightness(0.88);
+}
+
+/* ══ STATS ══ */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px; margin: 24px 0;
+}
+.stat-box {
+  background: var(--un-dark);
+  color: #fff; border-radius: 6px;
+  padding: 18px 16px; text-align: center;
+  overflow: hidden; position: relative;
+}
+.stat-box-photo {
+  width: 100%; height: 60px;
+  object-fit: cover; object-position: center;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  opacity: 0.6;
+  filter: saturate(0.5);
+}
+.stat-box .num {
+  font-family: 'Special Elite', cursive;
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  color: var(--un-blue); line-height: 1; margin-bottom: 6px;
+}
+.stat-box .lbl {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6); line-height: 1.45;
+}
+
+/* ══ FIELD NOTE ══ */
+.field-note {
+  background: #FFFFF0;
+  border: 1px solid #D4C870;
+  border-left: 5px solid var(--warn);
+  padding: 18px 20px; margin: 22px auto;
+  max-width: 640px;
+  transform: rotate(-0.3deg);
+  box-shadow: 2px 3px 12px rgba(0,0,0,0.08);
+  font-family: 'Special Elite', cursive;
+  font-size: 0.95rem; line-height: 1.65;
+  color: #2a2010; text-align: center;
+}
+.field-note::before {
+  content: 'FIELD NOTE';
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 0.18em;
+  color: var(--warn); display: block;
+  margin-bottom: 8px; text-align: center;
+}
+
+/* ══ SIGNAL GRID ══ */
+.signal-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: 14px; margin: 24px 0;
+}
+.signal-card {
+  background: #fff; border-radius: 6px;
+  padding: 0 0 18px;
+  border-top: 4px solid var(--rule);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+  text-align: center; overflow: hidden;
+}
+.signal-card.tier-zero  { border-top-color: var(--danger); }
+.signal-card.tier-low   { border-top-color: var(--warn); }
+.signal-card.tier-mid   { border-top-color: #F1C40F; }
+.signal-card.tier-full  { border-top-color: var(--signal); }
+
+.signal-card-photo {
+  width: 100%; height: 90px;
+  object-fit: cover; object-position: center;
+  display: block; margin-bottom: 14px;
+  filter: saturate(0.7) brightness(0.85);
+}
+.signal-card-inner { padding: 0 18px; }
+
+.signal-bars {
+  display: flex; gap: 4px; align-items: flex-end;
+  height: 22px; margin: 0 auto 10px; width: fit-content;
+}
+.signal-bars span {
+  width: 8px; border-radius: 1px 1px 0 0; background: var(--rule);
+}
+.signal-bars span:nth-child(1) { height: 30%; }
+.signal-bars span:nth-child(2) { height: 55%; }
+.signal-bars span:nth-child(3) { height: 80%; }
+.signal-bars span:nth-child(4) { height: 100%; }
+.tier-zero  .signal-bars span { background: var(--danger); opacity: 0.2; }
+.tier-zero  .signal-bars span:nth-child(1) { opacity: 1; }
+.tier-low   .signal-bars span { background: var(--warn); opacity: 0.2; }
+.tier-low   .signal-bars span:nth-child(1), .tier-low .signal-bars span:nth-child(2) { opacity: 1; }
+.tier-mid   .signal-bars span { background: #F1C40F; opacity: 0.2; }
+.tier-mid   .signal-bars span:nth-child(1), .tier-mid .signal-bars span:nth-child(2), .tier-mid .signal-bars span:nth-child(3) { opacity: 1; }
+.tier-full  .signal-bars span { background: var(--signal); opacity: 1; }
+
+.signal-card h3 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink);
+  margin-bottom: 4px; text-align: center;
+}
+.signal-card .sc-pop {
+  font-family: 'Special Elite', cursive;
+  font-size: 1.2rem; line-height: 1;
+  margin-bottom: 12px; text-align: center;
+}
+.tier-zero .sc-pop { color: var(--danger); }
+.tier-low  .sc-pop { color: var(--warn); }
+.tier-mid  .sc-pop { color: #C0A000; }
+.tier-full .sc-pop { color: var(--signal); }
+.signal-card ul { list-style: none; text-align: left; }
+.signal-card ul li {
+  font-size: 0.8rem; color: #4a4030;
+  line-height: 1.5; padding: 5px 0;
+  border-bottom: 1px solid var(--rule);
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.signal-card ul li:last-child { border-bottom: none; }
+.signal-card ul li::before { content: '▸'; color: var(--un-blue); flex-shrink: 0; }
+
+/* ══ PROTOCOLS ══ */
+.protocol-list { display: flex; flex-direction: column; gap: 18px; margin: 24px 0; }
+.proto-item { display: grid; grid-template-columns: 56px 1fr; gap: 16px; align-items: start; }
+.proto-num-wrap {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--un-dark);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(4,79,133,0.06);
+}
+.proto-num-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  filter: saturate(0.6) brightness(0.9);
+}
+.proto-num-wrap.text-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--un-dark);
+}
+.proto-body h3 {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600; font-size: 0.95rem;
+  color: var(--ink); margin-bottom: 5px; padding-top: 12px;
+}
+.proto-body p { font-size: 0.84rem; line-height: 1.62; color: #4a4030; }
+
+/* ══ AMBASSADOR CHAIN ══ */
+.chain-row {
+  display: flex; flex-wrap: wrap;
+  justify-content: center; align-items: center;
+  gap: 8px; margin: 28px 0;
+}
+.chain-node { display: flex; flex-direction: column; align-items: center; min-width: 80px; }
+.chain-icon {
+  width: 58px; height: 58px; border-radius: 50%;
+  overflow: hidden; margin-bottom: 8px;
+  border: 3px solid var(--rule);
+}
+.chain-icon img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  filter: saturate(0.75);
+}
+.chain-node.un   .chain-icon { border-color: var(--un-dark); }
+.chain-node.hub  .chain-icon { border-color: #2980B9; }
+.chain-node.amb  .chain-icon { border-color: var(--warn); }
+.chain-node.vil  .chain-icon { border-color: var(--signal); }
+.chain-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.06em;
+  text-transform: uppercase; text-align: center;
+  color: var(--mid); line-height: 1.4;
+}
+.chain-arrow { font-size: 1.2rem; color: var(--rule); padding: 0 2px; margin-bottom: 26px; flex-shrink: 0; }
+.multiplier { font-family: 'Special Elite', cursive; font-size: 0.7rem; color: var(--un-blue); margin-top: 3px; text-align: center; }
+
+/* ══ TOOLKIT ══ */
+.toolkit-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 24px 0; }
+.tool-card {
+  background: #fff; border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  position: relative; text-align: center;
+}
+.tool-card::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 3px;
+  background: var(--un-blue);
+}
+.tool-card-photo {
+  width: 100%; height: 100px;
+  object-fit: cover; object-position: center;
+  display: block;
+  filter: saturate(0.65) brightness(0.9);
+}
+.tool-card-body { padding: 14px 16px 18px; }
+.tool-card h3 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 6px; text-align: center; }
+.tool-card p { font-size: 0.78rem; line-height: 1.55; color: #4a4030; margin-bottom: 0; text-align: center; }
+.tool-badge {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 0.1em;
+  padding: 3px 8px; border-radius: 2px;
+  margin-bottom: 8px; text-transform: uppercase;
+}
+.badge-offline { background: #FEF3E2; color: var(--warn); }
+.badge-online  { background: #E8F8F1; color: #1A8A4A; }
+.badge-hybrid  { background: #EBF5FB; color: var(--un-dark); }
+.badge-print   { background: #F5EEF8; color: #7D3C98; }
+
+/* ══ REGIONS ══ */
+.region-list { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 24px 0; }
+.region-card {
+  background: #fff; border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  border-left: 4px solid var(--un-blue);
+  text-align: center;
+}
+.region-photo {
+  width: 100%; height: 110px;
+  object-fit: cover; object-position: center;
+  display: block;
+  filter: saturate(0.7) brightness(0.85);
+}
+.region-card-body { padding: 16px 18px 20px; }
+.region-card h3 { font-family: 'Special Elite', cursive; font-size: 1.1rem; color: var(--ink); margin-bottom: 4px; text-align: center; }
+.region-tier { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--mid); text-transform: uppercase; margin-bottom: 14px; text-align: center; }
+.region-card ul { list-style: none; text-align: left; }
+.region-card ul li { font-size: 0.82rem; color: #3a3420; padding: 6px 0; border-bottom: 1px solid var(--rule); display: flex; gap: 8px; align-items: flex-start; line-height: 1.45; }
+.region-card ul li:last-child { border-bottom: none; }
+.region-card ul li .li-label { font-size: 0.72rem; font-weight: 600; color: var(--un-dark); flex-shrink: 0; min-width: 28px; }
+
+/* ══ IMPACT CHAIN ══ */
+.impact-chain { display: grid; grid-template-columns: 1fr; gap: 1px; margin: 24px 0; background: var(--rule); border-radius: 6px; overflow: hidden; }
+.impact-step { padding: 0; background: #fff; text-align: center; overflow: hidden; }
+.impact-step-photo { width: 100%; height: 80px; object-fit: cover; object-position: center; display: block; filter: saturate(0.6) brightness(0.85); }
+.impact-step-body { padding: 14px 16px 16px; }
+.impact-step h4 { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--un-dark); margin-bottom: 5px; text-align: center; }
+.impact-step p { font-size: 0.75rem; color: #4a4030; line-height: 1.5; text-align: center; }
+
+/* ══ TIMELINE ══ */
+.timeline { position: relative; padding-left: 28px; margin: 24px 0; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--rule); }
+.tl-item { position: relative; margin-bottom: 28px; }
+.tl-item:last-child { margin-bottom: 0; }
+.tl-dot { position: absolute; left: -24px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--un-blue); border: 3px solid var(--paper); box-shadow: 0 0 0 2px var(--un-blue); }
+.tl-photo { width: 100%; height: 90px; object-fit: cover; object-position: center; border-radius: 4px; margin-bottom: 10px; filter: saturate(0.65) brightness(0.85); }
+.tl-year { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--un-blue); text-transform: uppercase; margin-bottom: 4px; }
+.tl-item h3 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 0.95rem; color: var(--ink); margin-bottom: 6px; }
+.tl-item p { font-size: 0.84rem; line-height: 1.62; color: #4a4030; }
+
+/* ══ SCENARIO PLANNER ══ */
+.quiz-block { background: var(--un-dark); border-radius: 8px; padding: 24px 20px; margin: 24px 0; color: #fff; text-align: center; }
+.quiz-block h3 { font-family: 'Special Elite', cursive; font-size: 1.2rem; margin-bottom: 8px; text-align: center; }
+.quiz-block .q-desc { font-size: 0.84rem; color: rgba(255,255,255,0.65); margin-bottom: 20px; line-height: 1.55; text-align: center; }
+.scenario-tabs { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+.scen-btn { width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); border-radius: 6px; cursor: pointer; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.85rem; text-align: center; transition: all 0.18s; min-height: 48px; }
+.scen-btn:hover, .scen-btn.active { background: var(--un-blue); border-color: var(--un-blue); color: #fff; }
+.scen-output { background: rgba(0,0,0,0.25); border-radius: 6px; padding: 18px 16px; font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.85); min-height: 80px; border-left: 3px solid var(--un-blue); text-align: left; }
+.scen-output strong { color: var(--un-blue); }
+
+/* ══ FOOTER ══ */
+.doc-footer {
+  background: var(--ink); color: rgba(255,255,255,0.45);
+  padding: 28px 24px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.07em;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 10px; text-align: center;
+}
+.doc-footer a { color: var(--un-blue); text-decoration: none; }
+
+/* ══ RESPONSIVE ══ */
+@media (min-width: 560px) {
+  .section { padding: 52px 40px; }
+  .signal-grid { grid-template-columns: repeat(2, 1fr); }
+  .toolkit-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  .impact-chain { grid-template-columns: repeat(3, 1fr); }
+  .scenario-tabs { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+  .scen-btn { width: auto; flex: 1; min-width: 160px; }
+}
+@media (min-width: 800px) {
+  .cover { padding: 64px 56px 52px; }
+  .section { padding: 60px 56px; }
+  .signal-grid { grid-template-columns: repeat(2, 1fr); }
+  .toolkit-grid { grid-template-columns: repeat(3, 1fr); }
+  .region-list { grid-template-columns: repeat(3, 1fr); }
+  .stat-row { grid-template-columns: repeat(4, 1fr); }
+  .impact-chain { grid-template-columns: repeat(6, 1fr); }
+  .doc-footer { flex-direction: row; justify-content: space-between; text-align: left; }
+  .chain-row { flex-wrap: nowrap; }
+  .scenario-tabs { flex-direction: row; }
+  .scen-btn { width: auto; }
+}
+
+::-webkit-scrollbar { height: 4px; width: 4px; }
+::-webkit-scrollbar-track { background: var(--paper2); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
+
+/* ══ A&I LOGO HOVER TOOLTIP ══ */
+.ai-link-wrap {
+  position: relative;
+  display: inline-block;
+}
+.ai-link-wrap a {
+  color: var(--un-blue);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  transition: color 0.2s;
+}
+.ai-link-wrap a:hover { color: #fff; }
+.ai-logo-tooltip {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.88);
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 0 0 2px var(--un-blue);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  z-index: 999;
+  background: #000;
+}
+.ai-logo-tooltip img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ai-logo-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: var(--un-blue);
+}
+.ai-link-wrap:hover .ai-logo-tooltip,
+.ai-link-wrap:focus-within .ai-logo-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+/* Mobile tap support */
+.ai-logo-tooltip.show {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+</style>
+</head>
+<body>
+<div class="doc-body">
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="stamp">UN — RESTRICTED · FIELD USE ONLY</div>
+  <!-- Wide-angle aerial of rural communities / earth from above -->
+  <img class="cover-hero"
+       src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&q=80&fit=crop"
+       alt="Aerial view of rural landscape — SkillBridge 2035 field operations">
+  <div class="cover-eyebrow">United Nations · SkillBridge Initiative · Scenario 2035</div>
+  <h1>Field Operations <span>Playbook</span><br>AI Education Without Borders</h1>
+  <p class="cover-sub">
+    A deployment guide for UN counselors tasked with delivering AI literacy
+    to underserved, low-connectivity, and infrastructure-limited communities worldwide.
+    Prepared by The Catalysts — operational in Thailand, Myanmar, Kenya, and beyond.
+  </p>
+  <div class="cover-meta">
+    <span><strong>CLASSIFICATION</strong>Field Advisory</span>
+    <span><strong>ISSUED</strong>2035 · Rev 1</span>
+    <span><strong>SCOPE</strong>Global Rural</span>
+    <span><strong>SDGs</strong>4 · 8 · 10</span>
+    <span><strong>GROUP</strong>The Catalysts</span>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav class="toc-strip">
+  <a class="toc-item" href="#situation">Situation</a>
+  <a class="toc-item" href="#tiers">Tiers</a>
+  <a class="toc-item" href="#protocols">Protocols</a>
+  <a class="toc-item" href="#toolkit">Toolkit</a>
+  <a class="toc-item" href="#ambassadors">Ambassadors</a>
+  <a class="toc-item" href="#regions">Regions</a>
+  <a class="toc-item" href="#phases">Phases</a>
+  <a class="toc-item" href="#impact">Impact</a>
+  <a class="toc-item" href="#scenario">Scenarios</a>
+</nav>
+
+<!-- ══ 1. SITUATION ══ -->
+<section class="section" id="situation">
+  <!-- Child in classroom with tablet — education scene -->
+  <img class="sec-photo"
+       src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=900&q=75&fit=crop&crop=center"
+       alt="Children learning with technology in underserved community">
+  <div class="sec-eyebrow">Mission Brief</div>
+  <h2>The Situation on the Ground</h2>
+  <p>
+    By 2035, AI literacy is no longer optional — it is the baseline for participating in
+    the global economy. Yet the populations who need it most remain the hardest to reach.
+  </p>
+  <p>
+    The AI divide is not a technology problem. It is a logistics problem, a trust problem,
+    and a language problem. Your mission as UN counselors is to solve all three simultaneously —
+    with whatever infrastructure exists, or none at all.
+  </p>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <!-- Rural poverty scene -->
+      <img class="stat-box-photo"
+           src="https://images.unsplash.com/photo-1594708767771-a7502209ff51?w=400&q=70&fit=crop&crop=center"
+           alt="Rural community">
+      <div class="num">1.1B</div>
+      <div class="lbl">People in Multidimensional Poverty (UNDP 2024)</div>
+    </div>
+    <div class="stat-box">
+      <!-- Youth looking at phone outdoors -->
+      <img class="stat-box-photo"
+           src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=70&fit=crop&crop=top"
+           alt="Youth disconnected">
+      <div class="num">262M</div>
+      <div class="lbl">Youth NEET — Not in Employment, Education or Training (ILO 2025)</div>
+    </div>
+    <div class="stat-box">
+      <!-- Crowd of people -->
+      <img class="stat-box-photo"
+           src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&q=70&fit=crop&crop=center"
+           alt="1 in 4 disconnected">
+      <div class="num">1 in 4</div>
+      <div class="lbl">Young people worldwide disconnected from economic opportunity</div>
+    </div>
+    <div class="stat-box">
+      <!-- Community teaching scene -->
+      <img class="stat-box-photo"
+           src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&q=70&fit=crop&crop=center"
+           alt="Community multiplier effect">
+      <div class="num">50×</div>
+      <div class="lbl">Multiplier — one trained Ambassador teaches 50 others in their community</div>
+    </div>
+  </div>
+
+  <div class="field-note">
+    "Our goal is not to turn everyone into programmers. It is to help ordinary people use AI
+    to improve the work they already do." — SkillBridge 2035 Mission Principle
+  </div>
+
+  <p>
+    This playbook maps every connectivity scenario you will encounter, the exact tools and
+    protocols for each, and a chain-of-trust model that lets communities teach themselves
+    long after your team has moved on.
+  </p>
+</section>
+
+<!-- ══ 2. CONNECTIVITY TIERS ══ -->
+<section class="section" id="tiers">
+  <div class="sec-eyebrow">Operational Context</div>
+  <h2>The Four Connectivity Tiers</h2>
+  <p>
+    Every deployment begins with a connectivity assessment. Do not assume the tier — measure it.
+    Your entire approach, toolkit, and success metrics depend on it.
+  </p>
+
+  <div class="signal-grid">
+    <div class="signal-card tier-zero">
+      <!-- Remote highland village, no power lines -->
+      <img class="signal-card-photo"
+           src="https://images.unsplash.com/photo-1466442929976-97f336a657be?w=500&q=70&fit=crop&crop=center"
+           alt="Dark zone — no connectivity village">
+      <div class="signal-card-inner">
+        <div class="signal-bars"><span></span><span></span><span></span><span></span></div>
+        <h3>Tier 0 — Dark Zone</h3>
+        <div class="sc-pop">No Signal</div>
+        <ul>
+          <li>No electricity or intermittent power only</li>
+          <li>No mobile network of any generation</li>
+          <li>No devices owned by community</li>
+          <li><strong>Deploy:</strong> Printed Kits + Solar + Ambassador Training</li>
+          <li><strong>Examples:</strong> Remote Myanmar highlands, deep rural Kenya</li>
+        </ul>
+      </div>
+    </div>
+    <div class="signal-card tier-low">
+      <!-- Rural market, basic phones visible -->
+      <img class="signal-card-photo"
+           src="https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=500&q=70&fit=crop&crop=center"
+           alt="Rural market — SMS connectivity">
+      <div class="signal-card-inner">
+        <div class="signal-bars"><span></span><span></span><span></span><span></span></div>
+        <h3>Tier 1 — Occasional Signal</h3>
+        <div class="sc-pop">2G / SMS Only</div>
+        <ul>
+          <li>Intermittent 2G — SMS and basic voice</li>
+          <li>Some community members own basic phones</li>
+          <li>Power available a few hours daily</li>
+          <li><strong>Deploy:</strong> SMS-based AI, offline chatbot, preloaded tablets</li>
+          <li><strong>Examples:</strong> Rural Thailand border regions, inland Kenya</li>
+        </ul>
+      </div>
+    </div>
+    <div class="signal-card tier-mid">
+      <!-- Small town community center -->
+      <img class="signal-card-photo"
+           src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&q=70&fit=crop&crop=center"
+           alt="Community center — sporadic connectivity">
+      <div class="signal-card-inner">
+        <div class="signal-bars"><span></span><span></span><span></span><span></span></div>
+        <h3>Tier 2 — Partial Connectivity</h3>
+        <div class="sc-pop">3G / Sporadic WiFi</div>
+        <ul>
+          <li>3G available in community center or market</li>
+          <li>Smartphones present but shared among families</li>
+          <li>Community gathering point with reliable power</li>
+          <li><strong>Deploy:</strong> Offline-first app + sync-when-connected + Hub model</li>
+          <li><strong>Examples:</strong> Peri-urban Myanmar, small-town Thailand</li>
+        </ul>
+      </div>
+    </div>
+    <div class="signal-card tier-full">
+      <!-- Urban learning space with WiFi -->
+      <img class="signal-card-photo"
+           src="https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=500&q=70&fit=crop&crop=center"
+           alt="Connected learning environment">
+      <div class="signal-card-inner">
+        <div class="signal-bars"><span></span><span></span><span></span><span></span></div>
+        <h3>Tier 3 — Connected</h3>
+        <div class="sc-pop">4G / WiFi</div>
+        <ul>
+          <li>Reliable mobile internet or community WiFi hotspot</li>
+          <li>Devices available — phones, shared tablets, school lab</li>
+          <li>Stable electricity</li>
+          <li><strong>Deploy:</strong> Full SkillBridge Online Platform + AI Career Navigator</li>
+          <li><strong>Examples:</strong> Bangkok peri-urban, Nairobi districts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 3. PROTOCOLS ══ -->
+<section class="section" id="protocols">
+  <!-- UN field team in discussion -->
+  <img class="sec-photo"
+       src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?w=900&q=75&fit=crop&crop=center"
+       alt="UN counselors in field discussion">
+  <div class="sec-eyebrow">Standard Operating Procedures</div>
+  <h2>Seven Field Protocols for UN Counselors</h2>
+  <p>
+    These apply universally, regardless of connectivity tier. What keeps the mission
+    alive is not technology — it is methodology.
+  </p>
+
+  <div class="protocol-list">
+    <div class="proto-item">
+      <!-- Listening / community circle -->
+      <div class="proto-num-wrap">
+        <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=100&q=70&fit=crop&crop=face"
+             alt="Listen and empathize">
+      </div>
+      <div class="proto-body">
+        <h3>01 — Empathize Before You Deploy</h3>
+        <p>Spend the first 48 hours doing nothing except listening. Map their existing work — what do they do every day? AI education that doesn't connect to a real daily task will be forgotten in a week. This is the Empathize phase of Design Thinking, and it is non-negotiable.</p>
+      </div>
+    </div>
+    <div class="proto-item">
+      <!-- Mobile signal check / phone in field -->
+      <div class="proto-num-wrap">
+        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=100&q=70&fit=crop&crop=center"
+             alt="Connectivity assessment">
+      </div>
+      <div class="proto-body">
+        <h3>02 — Conduct a Connectivity & Power Assessment</h3>
+        <p>Before any lesson begins, map the tier (0–3). Walk the perimeter of the community with a mobile device and log signal strength by location. Build your toolkit selection entirely around what is already there, not what you wish were there.</p>
+      </div>
+    </div>
+    <div class="proto-item">
+      <!-- Local language lesson / teacher with community -->
+      <div class="proto-num-wrap">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=100&q=70&fit=crop&crop=top"
+             alt="Teach in local language">
+      </div>
+      <div class="proto-body">
+        <h3>03 — Teach in the Local Language — Always</h3>
+        <p>SkillBridge 2035 supports voice-based learning and local language interfaces for Burmese, Thai, Swahili, and 22 additional languages. Use local proverbs and analogies — they land ten times better than a technical manual.</p>
+      </div>
+    </div>
+    <div class="proto-item">
+      <!-- Farmer with phone / hands on crop -->
+      <div class="proto-num-wrap">
+        <img src="https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?w=100&q=70&fit=crop&crop=center"
+             alt="Economic application of AI">
+      </div>
+      <div class="proto-body">
+        <h3>04 — Anchor Every Lesson to Immediate Economic Gain</h3>
+        <p>Every AI concept must come with a same-week application: "By Friday, use this tool to check whether your soil needs watering before the rain." Micro-certifications are awarded for practical completion, not time served.</p>
+      </div>
+    </div>
+    <div class="proto-item">
+      <!-- Person teaching a group -->
+      <div class="proto-num-wrap">
+        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=100&q=70&fit=crop&crop=top"
+             alt="Community Ambassador training">
+      </div>
+      <div class="proto-body">
+        <h3>05 — Identify and Train the Community Ambassador on Day Three</h3>
+        <p>By day three, you will know who the community already trusts. Train them deeply. Your job is to make yourself unnecessary as quickly as possible. One Ambassador trains 50 others. One empowered village trains the next village.</p>
+      </div>
+    </div>
+    <div class="proto-item">
+      <!-- Solar panel in rural setting -->
+      <div class="proto-num-wrap">
+        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=100&q=70&fit=crop&crop=center"
+             alt="Solar infrastructure">
+      </div>
+      <div class="proto-body">
+        <h3>06 — Leave Behind Physical Infrastructure</h3>
+        <p>Before departure, ensure the community has: printed AI literacy guidebooks in local language, at least one preloaded tablet cached with offline lessons, a solar charging station if no grid power exists, and QR codes linking to future resources when connectivity improves.</p>
+      </div>
+    </div>
+    <div class="proto-item">
+      <!-- Data / analytics on screen -->
+      <div class="proto-num-wrap">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&q=70&fit=crop&crop=center"
+             alt="Measure impact weekly">
+      </div>
+      <div class="proto-body">
+        <h3>07 — Measure Impact Weekly — Then Share the Story</h3>
+        <p>The Learning Analytics Dashboard tracks completion and certification even in offline mode. More powerful than the data: collect one human story per week — a farmer who saved her harvest, a young man who landed his first remote job. These stories unlock the next round of grants.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4. TOOLKIT ══ -->
+<section class="section" id="toolkit">
+  <div class="sec-eyebrow">Equipment & Resources</div>
+  <h2>The SkillBridge Field Toolkit</h2>
+  <p>
+    Four channels — online, offline, social, and printed — so no community is excluded
+    by their infrastructure reality.
+  </p>
+
+  <div class="toolkit-grid">
+    <div class="tool-card">
+      <!-- Laptop / digital platform -->
+      <img class="tool-card-photo"
+           src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=500&q=70&fit=crop&crop=center"
+           alt="AI Learning Hub — online platform">
+      <div class="tool-card-body">
+        <div class="tool-badge badge-online">Online</div>
+        <h3>AI Learning Hub</h3>
+        <p>Full-featured web platform with adaptive AI courses, career navigator, job marketplace, and learning analytics. Requires Tier 3 connectivity.</p>
+      </div>
+    </div>
+    <div class="tool-card">
+      <!-- Navigation / compass / map -->
+      <img class="tool-card-photo"
+           src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=70&fit=crop&crop=face"
+           alt="AI Career Navigator">
+      <div class="tool-card-body">
+        <div class="tool-badge badge-online">Online</div>
+        <h3>AI Career Navigator</h3>
+        <p>Matches learner skills to remote job listings globally. Handles CV building, interview prep, and micro-certification verification for employers.</p>
+      </div>
+    </div>
+    <div class="tool-card">
+      <!-- Tablet device close-up -->
+      <img class="tool-card-photo"
+           src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&q=70&fit=crop&crop=center"
+           alt="Preloaded tablet — offline learning">
+      <div class="tool-card-body">
+        <div class="tool-badge badge-offline">Offline</div>
+        <h3>Preloaded Tablets</h3>
+        <p>Android tablets with 32GB of SkillBridge content: video lessons, offline AI chatbot, practice exercises. Works with zero connectivity.</p>
+      </div>
+    </div>
+    <div class="tool-card">
+      <!-- Server / AI hardware -->
+      <img class="tool-card-photo"
+           src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&q=70&fit=crop&crop=center"
+           alt="Offline AI chatbot technology">
+      <div class="tool-card-body">
+        <div class="tool-badge badge-offline">Offline</div>
+        <h3>Offline AI Chatbot</h3>
+        <p>A lightweight on-device AI tutor that answers farming, business, and skills questions without internet. Voice-enabled, multi-language, runs on 2GB RAM devices.</p>
+      </div>
+    </div>
+    <div class="tool-card">
+      <!-- Solar panels in field -->
+      <img class="tool-card-photo"
+           src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=500&q=70&fit=crop&crop=center"
+           alt="Solar charging station">
+      <div class="tool-card-body">
+        <div class="tool-badge badge-offline">Offline</div>
+        <h3>Solar Charging Station</h3>
+        <p>Portable 40W solar panel + battery bank. Charges 6 devices simultaneously. Deployed to every Tier 0 and Tier 1 community.</p>
+      </div>
+    </div>
+    <div class="tool-card">
+      <!-- Books / printed materials -->
+      <img class="tool-card-photo"
+           src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500&q=70&fit=crop&crop=center"
+           alt="AI Literacy Guidebooks — printed materials">
+      <div class="tool-card-body">
+        <div class="tool-badge badge-print">Print</div>
+        <h3>AI Literacy Guidebooks</h3>
+        <p>Illustrated, low-literacy-friendly guides in 24 languages. Cover AI basics for farming, small business, health, and remote work. Printed on waterproof paper.</p>
+      </div>
+    </div>
+    <div class="tool-card">
+      <!-- Small business / shop -->
+      <img class="tool-card-photo"
+           src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&q=70&fit=crop&crop=center"
+           alt="Business digitization manuals">
+      <div class="tool-card-body">
+        <div class="tool-badge badge-print">Print</div>
+        <h3>Business Digitization Manuals</h3>
+        <p>Step-by-step guides for small business owners: mobile payments, AI inventory, digital marketing. Tier-specific versions per connectivity level.</p>
+      </div>
+    </div>
+    <div class="tool-card">
+      <!-- Community gathering space -->
+      <img class="tool-card-photo"
+           src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&q=70&fit=crop&crop=center"
+           alt="Community Learning Hub">
+      <div class="tool-card-body">
+        <div class="tool-badge badge-hybrid">Hybrid</div>
+        <h3>Community Learning Hub</h3>
+        <p>A designated physical space — school, community center, or market stall — equipped with preloaded devices and solar power. The village's gateway to SkillBridge.</p>
+      </div>
+    </div>
+    <div class="tool-card">
+      <!-- Satellite dish / broadcast -->
+      <img class="tool-card-photo"
+           src="https://images.unsplash.com/photo-1590859808308-3d2d9c515b1a?w=500&q=70&fit=crop&crop=center"
+           alt="Livestream workshops via satellite">
+      <div class="tool-card-body">
+        <div class="tool-badge badge-hybrid">Hybrid</div>
+        <h3>Livestream Workshops</h3>
+        <p>Monthly sessions broadcast via satellite link or recorded on USB sticks. Expert instructors, industry panels, and success story showcases from other communities.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-note">
+    Dark zone reality check: In a Tier 0 village, your most powerful tool is a waterproof printed guidebook, a motivated Ambassador, and a solar panel. Technology follows trust — never leads it.
+  </div>
+</section>
+
+<!-- ══ 5. AMBASSADORS ══ -->
+<section class="section" id="ambassadors">
+  <!-- Community leader teaching group outdoors -->
+  <img class="sec-photo"
+       src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=900&q=75&fit=crop&crop=center"
+       alt="Community AI Ambassador teaching villagers">
+  <div class="sec-eyebrow">Human Infrastructure</div>
+  <h2>The Community AI Ambassador Chain</h2>
+  <p>
+    The most important thing SkillBridge 2035 deploys is not a device — it is a person.
+    One empowered village trains the next village.
+  </p>
+
+  <div class="chain-row">
+    <div class="chain-node un">
+      <div class="chain-icon">
+        <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=120&q=70&fit=crop&crop=face"
+             alt="UN Counselor">
+      </div>
+      <div class="chain-label">UN<br>Counselor<br>Team</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node hub">
+      <div class="chain-icon">
+        <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=120&q=70&fit=crop&crop=center"
+             alt="Regional Training Hub">
+      </div>
+      <div class="chain-label">Regional<br>Training<br>Hub</div>
+      <div class="multiplier">×4 hubs</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node amb">
+      <div class="chain-icon">
+        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=120&q=70&fit=crop&crop=face"
+             alt="Community AI Ambassador">
+      </div>
+      <div class="chain-label">Community<br>AI<br>Ambassador</div>
+      <div class="multiplier">1 per village</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node vil">
+      <div class="chain-icon">
+        <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=120&q=70&fit=crop&crop=center"
+             alt="Village Learners">
+      </div>
+      <div class="chain-label">Village<br>Learners</div>
+      <div class="multiplier">×50 each</div>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node vil">
+      <div class="chain-icon">
+        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=120&q=70&fit=crop&crop=center"
+             alt="Neighboring village">
+      </div>
+      <div class="chain-label">Neighboring<br>Village</div>
+      <div class="multiplier">self-replicating</div>
+    </div>
+  </div>
+
+  <div class="protocol-list">
+    <div class="proto-item">
+      <div class="proto-num-wrap">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=100&q=70&fit=crop&crop=face"
+             alt="Trust and community leadership">
+      </div>
+      <div class="proto-body">
+        <h3>How to Identify an Ambassador</h3>
+        <p>Look for the person who others already ask for help — not necessarily the most educated or the youngest. They must be trusted by the community, curious about new tools, and committed to staying. Offer them the recognized "SkillBridge Community AI Trainer" credential — accepted by local employers and NGOs.</p>
+      </div>
+    </div>
+    <div class="proto-item">
+      <div class="proto-num-wrap">
+        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=100&q=70&fit=crop&crop=top"
+             alt="5-day training curriculum">
+      </div>
+      <div class="proto-body">
+        <h3>Ambassador Training Curriculum (5 Days)</h3>
+        <p>Day 1: AI fundamentals in local language. Day 2: Using offline tools — chatbot, preloaded tablet, voice features. Day 3: Teaching adults — how to run a session at the Community Hub. Day 4: Troubleshooting devices and connectivity. Day 5: Connecting learners to income — job marketplace navigation, mobile payment setup, remote work basics.</p>
+      </div>
+    </div>
+    <div class="proto-item">
+      <div class="proto-num-wrap">
+        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=100&q=70&fit=crop&crop=center"
+             alt="Multiplier effect in villages">
+      </div>
+      <div class="proto-body">
+        <h3>The Multiplier in Practice</h3>
+        <p>6 counselors → 4 regional hubs → 20 village Ambassadors → 1,000 learners in cycle one. Those learners train their neighbors. By end of Year 1, a single counselor team can have touched 50,000+ lives — without ever returning.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 6. REGIONS ══ -->
+<section class="section" id="regions">
+  <div class="sec-eyebrow">Deployment Zones — Phase 1</div>
+  <h2>Priority Regions: 2035 Field Operations</h2>
+  <p>
+    Three countries chosen for their combination of high need, diverse connectivity conditions,
+    and existing NGO partner networks on the ground.
+  </p>
+
+  <div class="region-list">
+    <div class="region-card">
+      <!-- Rice paddy fields Myanmar -->
+      <img class="region-photo"
+           src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70&fit=crop&crop=center"
+           alt="Myanmar rural highlands — rice farming">
+      <div class="region-card-body">
+        <h3>Myanmar — Rural Highlands</h3>
+        <div class="region-tier">Tier 0–1 · Dark Zone to SMS Only</div>
+        <ul>
+          <li><span class="li-label">Work</span>Subsistence farming — rice, legumes</li>
+          <li><span class="li-label">Signal</span>Patchy 2G in market towns; none in highlands</li>
+          <li><span class="li-label">Module</span>Farming AI — crop disease detection via photo-SMS, weather &amp; planting recommendations</li>
+          <li><span class="li-label">Lang</span>Burmese + 3 ethnic minority languages</li>
+          <li><span class="li-label">Power</span>Solar-only in most villages</li>
+          <li><span class="li-label">Goal</span>200 Ambassadors · 10,000 farmers by end of 2035</li>
+        </ul>
+      </div>
+    </div>
+    <div class="region-card">
+      <!-- Thai market / street scene -->
+      <img class="region-photo"
+           src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600&q=70&fit=crop&crop=center"
+           alt="Thailand peri-urban market town">
+      <div class="region-card-body">
+        <h3>Thailand — Peri-Urban &amp; Border</h3>
+        <div class="region-tier">Tier 1–2 · SMS to Sporadic 3G</div>
+        <ul>
+          <li><span class="li-label">Work</span>Small market trade, informal services</li>
+          <li><span class="li-label">Signal</span>3G in town centers; 2G or none in border villages</li>
+          <li><span class="li-label">Module</span>Small-Business Digitization — mobile payments, AI inventory, digital marketing</li>
+          <li><span class="li-label">Lang</span>Thai + hill tribe languages (Karen, Hmong)</li>
+          <li><span class="li-label">Power</span>Grid in towns; generator/solar in villages</li>
+          <li><span class="li-label">Goal</span>150 Ambassadors · 8,000 business owners by end of 2035</li>
+        </ul>
+      </div>
+    </div>
+    <div class="region-card">
+      <!-- Nairobi / Kenya urban informal workers -->
+      <img class="region-photo"
+           src="https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=600&q=70&fit=crop&crop=center"
+           alt="Kenya rural and informal urban workers">
+      <div class="region-card-body">
+        <h3>Kenya — Rural &amp; Informal Urban</h3>
+        <div class="region-tier">Tier 1–3 · SMS to 4G (Varied)</div>
+        <ul>
+          <li><span class="li-label">Work</span>Informal work, gig economy, farming</li>
+          <li><span class="li-label">Signal</span>M-Pesa mobile money strong; data varies widely</li>
+          <li><span class="li-label">Module</span>Remote-Work Readiness — AI-assisted CV, remote job applications, digital finance</li>
+          <li><span class="li-label">Lang</span>Swahili + English + regional languages</li>
+          <li><span class="li-label">Power</span>Solar + grid patchwork</li>
+          <li><span class="li-label">Goal</span>250 Ambassadors · 12,500 youth by end of 2035</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 7. PHASES ══ -->
+<section class="section" id="phases">
+  <div class="sec-eyebrow">Implementation Timeline</div>
+  <h2>Three-Phase Rollout: 2035 to 2040</h2>
+  <p>Phase 1 proves the model. Phase 2 stress-tests it. Phase 3 hands it to the world.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <!-- Pilot launch / small team on ground -->
+      <img class="tl-photo"
+           src="https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=700&q=70&fit=crop&crop=center"
+           alt="Phase 1 pilot program launch">
+      <div class="tl-year">Phase 1 · 2035</div>
+      <h3>Pilot Program — Proving the Model</h3>
+      <p>Launch in Thailand, Myanmar, and Kenya. Deploy to communities with at least Tier 1 connectivity to establish baselines and refine curriculum. Train the first cohort of Community AI Ambassadors. Measure employment outcomes, income increases, and certification pass rates. Target: 30,000 learners reached.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <!-- Dirt road into remote area / rural expansion -->
+      <img class="tl-photo"
+           src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=700&q=70&fit=crop&crop=center"
+           alt="Phase 2 rural expansion into dark zones">
+      <div class="tl-year">Phase 2 · 2036</div>
+      <h3>Rural Expansion — Into Dark Zones</h3>
+      <p>Expand into Tier 0 communities using the full offline toolkit: printed kits, solar charging, preloaded tablets, offline AI chatbot. Activate the Ambassador-to-Ambassador chain — communities trained in Phase 1 begin training their neighbors without counselor involvement. Partner with local governments and regional NGOs for sustained logistics.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <!-- Global map / world network -->
+      <img class="tl-photo"
+           src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=700&q=70&fit=crop&crop=center"
+           alt="Phase 3 global scale-up">
+      <div class="tl-year">Phase 3 · 2037–2040</div>
+      <h3>Global Scale-Up — The Handoff</h3>
+      <p>Establish UN-recognized micro-certifications accepted by global employers. Expand to 15+ countries across Southeast Asia, Sub-Saharan Africa, South Asia, and Latin America. The Ambassador network becomes self-sustaining: communities train each other, SkillBridge provides the platform and content updates. Target: 5 million learners by 2040.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 8. IMPACT CHAIN ══ -->
+<section class="section" id="impact">
+  <div class="sec-eyebrow">Theory of Change</div>
+  <h2>From Village to Global Equality</h2>
+  <p>
+    Every intervention is designed to move people forward along this chain.
+    A counselor's job is to pull each learner at least one step further than where they began.
+  </p>
+
+  <div class="impact-chain">
+    <div class="impact-step">
+      <img class="impact-step-photo"
+           src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=400&q=65&fit=crop&crop=center"
+           alt="Learning AI skills">
+      <div class="impact-step-body">
+        <h4>Learn AI Skills</h4>
+        <p>Foundational digital &amp; AI literacy in local language via offline or online modules</p>
+      </div>
+    </div>
+    <div class="impact-step">
+      <img class="impact-step-photo"
+           src="https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?w=400&q=65&fit=crop&crop=center"
+           alt="Applying practical skills in the field">
+      <div class="impact-step-body">
+        <h4>Develop Practical Skills</h4>
+        <p>Apply AI to their actual daily work — farming, trade, caregiving, services</p>
+      </div>
+    </div>
+    <div class="impact-step">
+      <img class="impact-step-photo"
+           src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=65&fit=crop&crop=face"
+           alt="Access employment opportunities">
+      <div class="impact-step-body">
+        <h4>Access Employment</h4>
+        <p>Earn micro-certifications, connect to job marketplace, access remote opportunities</p>
+      </div>
+    </div>
+    <div class="impact-step">
+      <img class="impact-step-photo"
+           src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400&q=65&fit=crop&crop=center"
+           alt="Increase income and financial stability">
+      <div class="impact-step-body">
+        <h4>Increase Income</h4>
+        <p>Higher crop yields, new customers, remote income streams, business growth</p>
+      </div>
+    </div>
+    <div class="impact-step">
+      <img class="impact-step-photo"
+           src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=400&q=65&fit=crop&crop=center"
+           alt="Improved quality of life for family">
+      <div class="impact-step-body">
+        <h4>Improve Quality of Life</h4>
+        <p>Food security, healthcare access, education for children, community investment</p>
+      </div>
+    </div>
+    <div class="impact-step">
+      <img class="impact-step-photo"
+           src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&q=65&fit=crop&crop=center"
+           alt="Reduce global inequality">
+      <div class="impact-step-body">
+        <h4>Reduce Inequality</h4>
+        <p>SDG 4, 8, 10 outcomes measured and reported to UN. The gap closes one village at a time</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-note">
+    The pre-work journey: Awareness → Access → Skills Development.<br>
+    The work journey: Finding Work → Doing Work → Sustained, Decent Work.<br>
+    Every SkillBridge learner is on this dual path simultaneously.
+  </div>
+</section>
+
+<!-- ══ 9. SCENARIO PLANNER ══ -->
+<section class="section" id="scenario">
+  <div class="sec-eyebrow">Field Decision Tool</div>
+  <h2>Scenario Planner</h2>
+  <p>
+    You've arrived in a community. Select the scenario that matches your field conditions
+    and get your full deployment protocol instantly.
+  </p>
+
+  <div class="quiz-block">
+    <h3>Select Your Field Scenario</h3>
+    <p class="q-desc">Choose the situation that best describes the community you've just arrived in.</p>
+    <div class="scenario-tabs">
+      <button class="scen-btn" onclick="showScenario('A', this)">Remote Farming Village — No Signal</button>
+      <button class="scen-btn" onclick="showScenario('B', this)">Rural Market Town — SMS Only</button>
+      <button class="scen-btn" onclick="showScenario('C', this)">Peri-Urban — Sporadic 3G</button>
+      <button class="scen-btn" onclick="showScenario('D', this)">Urban Workers — 4G Available</button>
+      <button class="scen-btn" onclick="showScenario('E', this)">No Power · No Devices · No Signal</button>
+    </div>
+    <div class="scen-output" id="scenOutput">
+      Tap a scenario above to see your full field deployment plan.
+    </div>
+  </div>
+</section>
+
+<!-- ══ SWOT ══ -->
+<section class="section">
+  <div class="sec-eyebrow">Risk Assessment</div>
+  <h2>What Can Go Wrong — And How You Handle It</h2>
+  <p>The SkillBridge SWOT analysis is your field risk register. Know it before you deploy.</p>
+
+  <div class="signal-grid">
+    <div class="signal-card" style="border-top-color: var(--signal);">
+      <img class="signal-card-photo"
+           src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&q=65&fit=crop&crop=center"
+           alt="Strengths — team collaboration">
+      <div class="signal-card-inner">
+        <h3 style="color: var(--signal);">Strengths</h3>
+        <ul>
+          <li>Addresses AI inequality before it becomes permanent</li>
+          <li>Combines education directly with employment outcomes</li>
+          <li>Scalable globally — offline-first design means no one is excluded</li>
+          <li>Ambassador model creates self-sustaining knowledge transfer</li>
+        </ul>
+      </div>
+    </div>
+    <div class="signal-card" style="border-top-color: var(--danger);">
+      <img class="signal-card-photo"
+           src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=500&q=65&fit=crop&crop=center"
+           alt="Weaknesses — resource constraints">
+      <div class="signal-card-inner">
+        <h3 style="color: var(--danger);">Weaknesses</h3>
+        <ul>
+          <li>Requires significant upfront funding for device procurement and printing</li>
+          <li>Low initial digital literacy means slower early adoption</li>
+          <li>Internet access still limited in Tier 0 zones — content updates are slow</li>
+        </ul>
+      </div>
+    </div>
+    <div class="signal-card" style="border-top-color: var(--un-blue);">
+      <img class="signal-card-photo"
+           src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=500&q=65&fit=crop&crop=center"
+           alt="Opportunities — global partnerships">
+      <div class="signal-card-inner">
+        <h3 style="color: var(--un-blue);">Opportunities</h3>
+        <ul>
+          <li>Growing global demand for AI-literate workers by 2035</li>
+          <li>Government and NGO partnerships already in motion</li>
+          <li>UN-recognized micro-certifications create trusted credential pathways</li>
+        </ul>
+      </div>
+    </div>
+    <div class="signal-card" style="border-top-color: var(--warn);">
+      <img class="signal-card-photo"
+           src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=500&q=65&fit=crop&crop=center"
+           alt="Threats — rapid AI change">
+      <div class="signal-card-inner">
+        <h3 style="color: var(--warn);">Threats</h3>
+        <ul>
+          <li>Rapid AI evolution may outpace curriculum — build update cycles into contracts</li>
+          <li>Competition from existing ed-tech platforms targeting easier demographics</li>
+          <li>Data privacy and cybersecurity in low-trust environments</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="doc-footer">
+  <span>SkillBridge 2035 · The Catalysts · UN Field Operations Playbook · Rev. 1</span>
+  <span style="display:flex; align-items:center; gap:8px; justify-content:center;">
+    <span class="ai-link-wrap" id="mlgWrap">
+      <a href="https://ms-lee-global-consulting.vercel.app/"
+         target="_blank" rel="noopener" id="footMLG"
+         style="color:var(--un-blue);text-decoration:none;font-weight:600;letter-spacing:0.06em;">Miss Lee Global Inc</a>
+      <div class="ai-logo-tooltip" id="mlgTooltip">
+        <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/mslee_icons/brown_suite.jpeg"
+             alt="Miss Lee — Miss Lee Global Inc">
+      </div>
+    </span>
+    &nbsp;·&nbsp;
+    <span class="ai-link-wrap" id="aiWrap">
+      <a href="https://lamar-myers-biz-card.vercel.app/"
+         target="_blank" rel="noopener" id="footAI">A&amp;I</a>
+      <div class="ai-logo-tooltip" id="aiTooltip">
+        <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/lamar_myers_b.png"
+             alt="Lamar Myers — Director &amp; Cinematographer · A&amp;I">
+      </div>
+    </span>
+  </span>
+  <span>SDG 4 · SDG 8 · SDG 10 · Connecting Communities to the Future</span>
+</footer>
+
+</div>
+
+<script>
+const scenarios = {
+  A: `<strong>Scenario A: Remote Farming Village — Tier 0/1 (No Signal)</strong><br><br>
+<strong>Your deployment kit:</strong> Printed AI Literacy Guidebook (local language) · Solar charging station · 3 preloaded tablets with offline AI chatbot · Voice instructions in Burmese/local language<br><br>
+<strong>Day 1–2:</strong> Community listening sessions. Learn what the farmers grow, what their biggest challenges are — weather, disease, market pricing.<br>
+<strong>Day 3:</strong> Demonstrate AI crop diagnosis using tablet camera — no internet needed. A photo of a diseased leaf returns a diagnosis and treatment in local language.<br>
+<strong>Day 3–4:</strong> Identify your Ambassador. Begin their 5-day intensive training.<br>
+<strong>Before you leave:</strong> Establish the Community Learning Hub at the school or market. Leave the solar station and tablets. Print QR codes for when connectivity arrives.<br><br>
+<strong>Success metric:</strong> 1 trained Ambassador · 20 farmers who have used the tool at least once · 1 documented crop-saving outcome.`,
+
+  B: `<strong>Scenario B: Rural Market Town — Tier 1 (SMS / 2G Only)</strong><br><br>
+<strong>Your deployment kit:</strong> SMS-based AI tools · Preloaded tablets · Printed business digitization manual · WhatsApp-based learning modules (works on 2G)<br><br>
+<strong>Day 1–2:</strong> Map the market economy. Who sells what? What are the bottlenecks — pricing, reach, payment collection?<br>
+<strong>Day 3:</strong> Introduce mobile payment setup via SMS. Demo AI-assisted inventory tracking that syncs when 3G is available.<br>
+<strong>Day 4:</strong> Small business module: How to use AI to write a product description, set a price, and reach buyers in the nearest city.<br>
+<strong>Before you leave:</strong> Train Ambassador. Establish weekly SMS check-in group with 10 business owners. Leave printed manuals.<br><br>
+<strong>Success metric:</strong> 5 businesses accepting mobile payments · 1 Ambassador certified · 3 documented income increases.`,
+
+  C: `<strong>Scenario C: Peri-Urban Community — Tier 2 (Sporadic 3G)</strong><br><br>
+<strong>Your deployment kit:</strong> SkillBridge offline-first app · Sync-on-connect system · Community Hub setup · Digital skills modules<br><br>
+<strong>Day 1:</strong> Set up Community Hub at a trusted central location. Install SkillBridge app on shared devices — configure offline download of full local curriculum.<br>
+<strong>Day 2–3:</strong> Group sessions at the Hub: AI basics, digital safety, career navigator. Sessions at peak community hours (morning and evening).<br>
+<strong>Day 4:</strong> Individual job-matching sessions. Help 5–10 learners create profiles on the SkillBridge job marketplace. First applications submitted.<br>
+<strong>Before you leave:</strong> Ambassador trained. Hub schedule posted. Monthly sync sessions planned with regional coordinator.<br><br>
+<strong>Success metric:</strong> 50 active app users · 10 job marketplace profiles created · 2 job matches within 30 days.`,
+
+  D: `<strong>Scenario D: Urban Informal Workers — Tier 3 (4G Available)</strong><br><br>
+<strong>Your deployment kit:</strong> Full SkillBridge Online Platform · AI Career Navigator · Micro-certification track · Remote work readiness curriculum<br><br>
+<strong>Day 1:</strong> Register cohort on full platform. Run baseline skills assessment — the AI places each learner in the right course tier automatically.<br>
+<strong>Day 2–5:</strong> Intensive bootcamp: mornings for learning, afternoons for practical application. Evenings for peer teaching — learners teach each other what they learned that day.<br>
+<strong>Week 2:</strong> CV building workshop using AI tools. Resume review, interview simulation, remote job platform setup.<br>
+<strong>Week 3+:</strong> First job applications and freelance contract bids monitored. Counselor available for coaching.<br><br>
+<strong>Success metric:</strong> 80% course completion · 40% micro-certification earned · 15% in paid employment within 60 days.`,
+
+  E: `<strong>Scenario E: Absolute Baseline — No Power · No Devices · No Signal</strong><br><br>
+This is the hardest deployment. It is also the most important.<br><br>
+<strong>Your deployment kit:</strong> Printed guidebooks only · Your voice · A community circle · A solar panel as your first gift to the community<br><br>
+<strong>Day 1:</strong> Arrive with nothing electronic visible. Sit in the community circle. Share a meal. Ask questions. Earn trust before you earn anything else.<br>
+<strong>Day 2:</strong> Introduce the solar panel. Let the community see it charge a device. The device is not the lesson — the fact that the sun can power knowledge is the lesson.<br>
+<strong>Day 3–5:</strong> Run AI literacy sessions using printed guidebooks with illustrations. Explain what AI is through analogies they know: "A machine that has read 10 million farming journals and remembers all of it."<br>
+<strong>The long game:</strong> Plant the Ambassador. Leave the guidebooks and the solar panel. Return in 90 days with a charged tablet. By then, the community is ready.<br><br>
+<strong>Success metric:</strong> 1 trusted Ambassador · A community that understands what AI is and why it matters · Seeds planted for when connectivity arrives.`
+};
+
+function showScenario(key, btn) {
+  document.querySelectorAll('.scen-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('scenOutput').innerHTML = scenarios[key];
+}
+
+// Mobile tap support for A&I logo tooltip
+const aiWrap = document.getElementById('aiWrap');
+const aiTooltip = document.getElementById('aiTooltip');
+if (aiWrap && aiTooltip) {
+  aiWrap.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    aiTooltip.classList.toggle('show');
+    mlgTooltip && mlgTooltip.classList.remove('show');
+  }, { passive: false });
+}
+
+// Mobile tap support for Miss Lee Global tooltip
+const mlgWrap = document.getElementById('mlgWrap');
+const mlgTooltip = document.getElementById('mlgTooltip');
+if (mlgWrap && mlgTooltip) {
+  mlgWrap.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    mlgTooltip.classList.toggle('show');
+    aiTooltip && aiTooltip.classList.remove('show');
+  }, { passive: false });
+}
+
+// Tap anywhere else to close both
+document.addEventListener('touchstart', function(e) {
+  if (aiWrap && !aiWrap.contains(e.target)) aiTooltip && aiTooltip.classList.remove('show');
+  if (mlgWrap && !mlgWrap.contains(e.target)) mlgTooltip && mlgTooltip.classList.remove('show');
+});
+</script>
+</body>
+</html>
